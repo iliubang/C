@@ -47,7 +47,7 @@ char *file_content(char * file_location){
 	size = ftell(shell);
 	fseek(shell, 0, SEEK_SET);
 
-	char *buffer[size + 1];
+	char *buffer = malloc(size + 1);
 	fread(buffer,1,size,shell);
 	fclose(shell);
 	return buffer;
@@ -99,7 +99,7 @@ int request(char *target, char *file, char *create, char *path){
 	if(send(msocket,put,strlen(put),0) < 0)
 		error("\033[1;31m[-]\033[0m fail to make request");
 
-	while(recebidos = recv(msocket,resposta,5000,0)){
+	while((recebidos = recv(msocket,resposta,5000,0)) > 0){
 		resposta[recebidos] = '\0';
 		printf("%s\n",resposta);
 	}
@@ -110,8 +110,8 @@ int request(char *target, char *file, char *create, char *path){
 
 int main(int argc, char **argv){
 
-	char *site = NULL, *create = NULL, *file = NULL, *path = NULL, *conteudo = NULL;
-	int opt,size,erro,disp,option_index = 0;
+	char *site = NULL, *create = NULL, *file = NULL, *path = NULL; 
+	int opt,erro,disp,option_index = 0;
 
 	static struct option long_options[] = {
 		{"help", no_argument, 0, 'h'},
